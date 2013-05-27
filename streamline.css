@@ -57,7 +57,6 @@ table {
 }
 
 /* Typography */
-
 h1 {
 	font-family: 'Oswald', sans-serif;
 	font-weight: 700;
@@ -69,22 +68,22 @@ h1 {
 h3 {
 	font-family: 'Oswald', sans-serif;
 	font-weight: 600;
-	font-size: 22px;
+	font-size: 20px;
 }
 
 p {
-    font-family: 'Droid Serif', serif;
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 24px;
-}
-
-/* Background */
-
-body {
-	background-color: #E8E8E8;
+  font-family: 'Droid Serif', serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
 }
 
 a:hover {
 	color: #FF7E0D;
 }
+
+/* Background */
+body {
+	background-color: #E8E8E8;
+}
+
