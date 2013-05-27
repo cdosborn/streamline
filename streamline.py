@@ -5,7 +5,7 @@ stores the file in rawPage, and then reads it into a
 raw HTML document in rawHTML.'''
 
 try:
-	address = "http://arstechnica.com/science/2013/05/if-everything-fades-into-the-background-you-may-have-a-high-iq/"
+	address = raw_input("Enter a valid URL: ")
 	rawPage = urlopen(address)
 	rawHTML = rawPage.read()
 	htmlDict = {}
@@ -46,7 +46,7 @@ def parseHtmlTags(rawHTML, tagText, htmlDict):
 	htmlDict[tagText] = itemDict
 
 def isArticleText(inputHtml):
-	forbidden = ["<script", "<form", "<input", "DOCTYPE"]
+	forbidden = ["<script", "<form", "<input", "DOCTYPE", "<span"]
 	for item in forbidden:
 		if inputHtml.find(item) != -1:
 			return False
@@ -56,13 +56,15 @@ def isArticleText(inputHtml):
 extracted elements contained in htmlDict with the 
 necessary HTML formatting in between.'''
 
-def makeHTML(htmlDict):
+def makeHTML(htmlDict, address):
 	htmlFile = open("streamlined.html", "w")
 	htmlFile.writelines(
 """
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>
+<link href='streamline.css' rel='stylesheet'>
 <meta charset="utf-8">
 """
 		)
@@ -75,11 +77,12 @@ def makeHTML(htmlDict):
 """
 		)
 	htmlFile.writelines("<h1>" + htmlDict["title"]["title0"] + "</h1>")
+	htmlFile.writelines("<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>")
 
 	numPItems = len(htmlDict["p"])
 	for item in range(1, numPItems):
 		keystr = "p" + str(item)
-		htmlFile.writelines("\n<p>" + htmlDict["p"][keystr] + "</p>")
+		htmlFile.writelines("<br><p>" + htmlDict["p"][keystr] + "</p>")
 
 	htmlFile.writelines(
 """
@@ -87,9 +90,11 @@ def makeHTML(htmlDict):
 </html>
 """
 		)
-
 	htmlFile.close()
+
+# def makeCSS(color, fontstyle):
+
 
 parseHtmlTags(rawHTML,"title", htmlDict)
 parseHtmlTags(rawHTML,"p", htmlDict)
-makeHTML(htmlDict)
+makeHTML(htmlDict, address)
