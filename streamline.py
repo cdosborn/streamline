@@ -29,24 +29,28 @@ def parseHtmlTags(rawHTML, tagText, htmlDict):
 	itemDict = {}
 
 	while startIndex != -1 and endIndex != -1:
+
 		startIndex = rawHTML.find(startTag, startIndex + 1)
 		endIndex = rawHTML.find(endTag, endIndex + 1)
+
 		if startIndex == -1 and endIndex == -1:
 			break
+
 		if startIndex > endIndex:
 			while startIndex > endIndex:
 				endIndex = rawHTML.find(endTag, endIndex + 1)
+
 		snippet = rawHTML[startIndex + len(startTag):endIndex]
+
 		if isArticleText(snippet):
 			itemDict[itemIndex] = snippet
-
-		dictItemNum += 1
-		itemIndex = tagText + str(dictItemNum)
+			dictItemNum += 1
+			itemIndex = tagText + str(dictItemNum)
 
 	htmlDict[tagText] = itemDict
 
 def isArticleText(inputHtml):
-	forbidden = ["<script", "<form", "<input", "DOCTYPE", "<span"]
+	forbidden = ["<form", "<input", "DOCTYPE", "<span"]
 	for item in forbidden:
 		if inputHtml.find(item) != -1:
 			return False
@@ -76,7 +80,8 @@ def makeHTML(htmlDict, address):
 <body>
 """
 		)
-	htmlFile.writelines("<h1>" + htmlDict["title"]["title0"] + "</h1>")
+	htmlFile.writelines("<div class='container'>")
+	htmlFile.writelines("<h1 style='text-align: center'>" + htmlDict["title"]["title0"] + "</h1>")
 	htmlFile.writelines("<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>")
 
 	numPItems = len(htmlDict["p"])
@@ -86,6 +91,7 @@ def makeHTML(htmlDict, address):
 
 	htmlFile.writelines(
 """
+</div>
 </body>
 </html>
 """
