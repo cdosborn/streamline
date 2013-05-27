@@ -81,11 +81,11 @@ def makeHTML(htmlDict, address):
 """
 		)
 	htmlFile.writelines("<div class='container'>")
-	htmlFile.writelines("<h1 style='text-align: center'>" + htmlDict["title"]["title0"] + "</h1>")
+	htmlFile.writelines("<h1>" + htmlDict["title"]["title0"] + "</h1>")
 	htmlFile.writelines("<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>")
 
 	numPItems = len(htmlDict["p"])
-	for item in range(1, numPItems):
+	for item in range(0, numPItems):
 		keystr = "p" + str(item)
 		htmlFile.writelines("<br><p>" + htmlDict["p"][keystr] + "</p>")
 
