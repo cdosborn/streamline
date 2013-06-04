@@ -1,11 +1,10 @@
 import re
-from tree import *
+import adt
 
-'''
-Parse helper methods
---------------------
-'''
-#assumes that html does include the first instance of the opening tag
+# Parser and helper methods
+# ------------------------
+
+# assumes that html does include the first instance of the opening tag
 def closingTag(html, tag, level=0, _index=0):
     #html has a valid beginning tag
     if html.find(tag) != 1:
@@ -14,8 +13,8 @@ def closingTag(html, tag, level=0, _index=0):
     indexAfterOpenTag = html.find(">") + 1
     return closHelper(html[indexAfterOpenTag:], tag, 0, indexAfterOpenTag)
 
-#handles the bulk of the recursion the above method just
-#prepares the html for recursion
+# handles the bulk of the recursion the above method just
+# prepares the html for recursion
 def closHelper(html, tag, level=0, _index=0):
     opening = "<" + tag + ">"
     closing = "</" + tag + ">"
@@ -36,15 +35,7 @@ def closHelper(html, tag, level=0, _index=0):
     else:
         return closHelper(html[closTag + len(closing):], tag, level - 1, _index + closTag + len(closing))
 
-'''
-print "TESTS: closingTag"
-print str(closingTag("adsfasdf", "p") == -1);
-print str(closingTag("<p adsfasdf></p>", "p") == len("<p adsfasdf>"))
-print str(closingTag("<p><p><p><p></p></p></p></p>", "p") == len("<p><p><p><p></p></p></p>"))
-print str(closingTag("<durp>asdfsd</durp>asd</durp>ad", "durp") == len("<durp>asdfsd"))
-'''
-
-#returns the text before a "<" (tag) or everything if no tag is found
+# returns the text before a "<" (tag) or everything if no tag is found
 def textBeforeTags(html):
     end = html.find("<")
     if end == -1:
@@ -52,16 +43,6 @@ def textBeforeTags(html):
     text = html[:end]
     return text;
 
-'''
-print "TESTS: textBeforeTags"
-print str(textBeforeTags("ab</p>") == "ab")
-print str(textBeforeTags("asdfasdfsa<as></as></asdf>") == "asdfasdfsa")
-'''
-
-'''
-Parser
---------------------
-'''
 def parse(html):
     # pattern is a regex for matching any tag
     pattern = re.compile("<\/?(\w*)[^>]*>")
@@ -96,3 +77,13 @@ def parse(html):
         return node
     else:
         return None
+
+# print "TESTS: closingTag"
+# print str(closingTag("adsfasdf", "p") == -1);
+# print str(closingTag("<p adsfasdf></p>", "p") == len("<p adsfasdf>"))
+# print str(closingTag("<p><p><p><p></p></p></p></p>", "p") == len("<p><p><p><p></p></p></p>"))
+# print str(closingTag("<durp>asdfsd</durp>asd</durp>ad", "durp") == len("<durp>asdfsd"))
+# 
+# print "TESTS: textBeforeTags"
+# print str(textBeforeTags("ab</p>") == "ab")
+# print str(textBeforeTags("asdfasdfsa<as></as></asdf>") == "asdfasdfsa")
