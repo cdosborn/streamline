@@ -4,7 +4,7 @@ import adt
 # Parser and helper methods
 # ------------------------
 
-# assumes that html does include the first instance of the opening tag
+# assumes that html includes the first instance of the opening tag
 def closingTag(html, tag, level=0, _index=0):
     #html has a valid beginning tag
     if html.find(tag) != 1:
@@ -77,13 +77,3 @@ def parse(html):
         return node
     else:
         return None
-
-# print "TESTS: closingTag"
-# print str(closingTag("adsfasdf", "p") == -1);
-# print str(closingTag("<p adsfasdf></p>", "p") == len("<p adsfasdf>"))
-# print str(closingTag("<p><p><p><p></p></p></p></p>", "p") == len("<p><p><p><p></p></p></p>"))
-# print str(closingTag("<durp>asdfsd</durp>asd</durp>ad", "durp") == len("<durp>asdfsd"))
-# 
-# print "TESTS: textBeforeTags"
-# print str(textBeforeTags("ab</p>") == "ab")
-# print str(textBeforeTags("asdfasdfsa<as></as></asdf>") == "asdfasdfsa")
