@@ -11,11 +11,11 @@ def closingTag(html, tag, level=0, _index=0):
         return -1
     #get index after tag and its attributes
     indexAfterOpenTag = html.find(">") + 1
-    return closHelper(html[indexAfterOpenTag:], tag, 0, indexAfterOpenTag)
+    return _closHelper(html[indexAfterOpenTag:], tag, 0, indexAfterOpenTag)
 
 # handles the bulk of the recursion the above method just
 # prepares the html for recursion
-def closHelper(html, tag, level=0, _index=0):
+def _closHelper(html, tag, level=0, _index=0):
     opening = "<" + tag + ">"
     closing = "</" + tag + ">"
     openTag = html.find(opening)
@@ -31,9 +31,9 @@ def closHelper(html, tag, level=0, _index=0):
     #   print "found at: " + str(_index + closTag)
         return  _index + closTag
     elif nextTag == openTag:
-        return closHelper(html[openTag + len(opening):], tag, level + 1, _index + openTag + len(opening))
+        return _closHelper(html[openTag + len(opening):], tag, level + 1, _index + openTag + len(opening))
     else:
-        return closHelper(html[closTag + len(closing):], tag, level - 1, _index + closTag + len(closing))
+        return _closHelper(html[closTag + len(closing):], tag, level - 1, _index + closTag + len(closing))
 
 # returns the text before a "<" (tag) or everything if no tag is found
 def textBeforeTags(html):
@@ -51,7 +51,7 @@ def parse(html):
     match = pattern.match(html)
     if match:
         tag = match.group(1)
-        node = Node(tag)
+        node = adt.Node(tag)
         # trims off beginning and closing tag of html
         body = html[match.end():len(html) - len("</" + tag + ">")]
 
