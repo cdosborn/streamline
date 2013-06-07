@@ -37,3 +37,6 @@ nosetests.xml
 .~
 .swo
 .swp
+
+# Mac
+.DS_Store
