@@ -1,7 +1,7 @@
 import uuid, os
 
 class htmlDoc:
-    def __init__(self, address, body, css, title=None, name=None): # title can be plaintext, body must be valid HTML, name optional
+    def __init__(self, address=None, content=None, css=None, title=None, name=None): 
         if name:
             self.uid = name + ".html" # uid -- unique identifier
         else:
@@ -11,48 +11,43 @@ class htmlDoc:
             os.mkdir("streamlined")
         self.doc = open("streamlined/" + self.uid, "w")
 
-        if css:
-            self.doc.writelines(
-                """
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                <link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>
-                <link rel='stylesheet' href='../streamline.css'>
-                <meta charset="utf-8">
-                """)
+        # Note: use ' in actual html, " for strings
+        if os.path.exists("./" + css):
+            style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
+                    "<link rel='stylesheet' href='../" + css + "'>" + "\n"
         else:
-            self.doc.writelines(
-                """
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                <meta charset="utf-8">
-                """)
+            style = ""
 
         if title:
-            titletag = "<title>" + title + "</title>"
-            self.doc.writelines(titletag)
+            meta   = "<title>" + title + "</title>" + "\n" + \
+                     "<meta charset='utf-8'>" + "\n"
+            header = "<h1>" + title + "</h1>" + "\n"
+        else:
+            meta   = "<meta charset='utf-8'>" + "\n"
+            header = ""
 
-        self.doc.writelines(
-            """
-            </head>
-            <body>
-            <div class='container'>
-            """)
-        if title:
-            self.doc.writelines("<h1>" + title + "</h1>")
-        self.doc.writelines("<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>")
-        if body:
-            self.doc.writelines(body)
-            
-        self.doc.writelines(
-            """
-            </div>
-            </body>
-            </html>
-            """)
+        if not content:
+            content = ""
+
+        if address:
+            link = "<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>" + "\n"
+        else:
+            link = ""
+
+        self.doc.writelines("<!DOCTYPE html>" + "\n" + \
+                            "<html lang='en'>" + "\n" + \
+                            "<head>" + "\n" + \
+                            meta + \
+                            "</head>" + "\n" + \
+                            "<body>" + "\n" + \
+                            "<div class='container'>" + "\n" + \
+                            header + \
+                            content + "\n" + \
+                            link + \
+                            "</div>" + "\n" + \
+                            "</body>" + "\n" + \
+                            "</html>" + "\n");
         self.doc.close()
 
 # example run
-# doc = htmlDoc("http://www.google.com", "<p>Lorem ipsum dolor sit amet.</p>", True)
+#doc = htmlDoc("http://www.google.com", "<p>Lorem ipsum dolor sit amet.</p>", "streamline.css")
