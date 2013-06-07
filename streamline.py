@@ -1,6 +1,6 @@
 import urllib2
 from urllib2 import urlopen, URLError, HTTPError
-import parse, adt
+import parse, adt, doc
 
 
 invalidURL = True
@@ -10,10 +10,11 @@ while invalidURL:
         address = raw_input("Enter a valid URL: ")
         rawPage = urlopen(address)
         rawHTML = rawPage.read()
-        # rawHTML = "<html><body><p>asdfklioet</p></body></html>"
+        # rawHTML = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>"
+        # address = "http://www.google.com"
         invalidURL = False
 
-    except urllib2.URLError: # Usually indicative of an HTTP 403 error (request denied by server as per robots.txt)
+    except urllib2.URLError:
         print "The website linked to does not allow for web crawling. Please try a different website."
 
     except urllib2.HTTPError: # Unusual error, tends to happen when URL causes a non-GET HTTP request.
@@ -27,6 +28,12 @@ while invalidURL:
 
 def parseWrapper(html, filters=None):
     tree = adt.Tree(parse.parse(html))
-    return tree.write(filters)
+    return tree.write()
 
-# print parseWrapper(rawHTML)
+def buildHTML(elements, address, css):
+    newDoc = doc.htmlDoc(address, elements, css)
+
+# buildHTML(parseWrapper(rawHTML), address, True)
+
+
+
