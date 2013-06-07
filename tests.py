@@ -17,3 +17,5 @@ def test_textBeforeTags():
 def test_parse():
     tree = adt.Tree(parse.parse("<p><p><p><p></p></p></p></p>"))
     assert tree.write() == "<p><p><p><p></p></p></p></p>"
+    tree = adt.Tree(parse.parse("<p><meta asd></p>"))
+    assert tree.write() == "<p><meta></p>"
