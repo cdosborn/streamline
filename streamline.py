@@ -33,7 +33,4 @@ def parseWrapper(html, filters=None):
 def buildHTML(elements, address, css):
     newDoc = doc.htmlDoc(address, elements, css)
 
-# buildHTML(parseWrapper(rawHTML), address, True)
-
-
-
+buildHTML(parseWrapper(rawHTML), address, "streamline.css")
