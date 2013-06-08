@@ -7,10 +7,11 @@ import adt
 # assumes that html includes the first instance of the opening tag
 def closingTag(html, tag, level=0, _index=0):
     #html has a valid beginning tag
-    if html.find(tag) != 1:
+    start = html.find("<" + tag)
+    if start == -1:
         return -1
     #get index after tag and its attributes
-    indexAfterOpenTag = html.find(">") + 1
+    indexAfterOpenTag = html[start:].find(">") + 1
     return _closHelper(html[indexAfterOpenTag:], tag, 0, indexAfterOpenTag)
 
 # handles the bulk of the recursion the above method just
@@ -45,7 +46,7 @@ def textBeforeTags(html):
 
 def parse(html):
     # pattern is a regex for matching any tag
-    pattern = re.compile("<\/?(\w*)[^>]*>")
+    pattern = re.compile("<[!|/]?([\w|-]+)[^>]*>")
     # match is the object result of matching the regex to the html 
     # it only matches text found at the beginning of a string
     match = pattern.match(html)
@@ -70,10 +71,14 @@ def parse(html):
             if nextMatch:
                 nextTag = nextMatch.group(1)
                 # print "--> deeper with: " + body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
-                nextHtml = body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
-                node.addChild(parse(nextHtml))
+                if closingTag(body, nextTag) == -1:
+                    node.addNoClosingChild(nextTag)
+                    body = body[len(nextMatch.group()):]
+                else:
+                    nextHtml = body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
+                    node.addChild(parse(nextHtml))
+                    body = body[len(nextHtml):]
                 # print "<-- exit, body rem: " + body[len(nextHtml):]
-                body = body[len(nextHtml):]
         return node
     else:
         return None
