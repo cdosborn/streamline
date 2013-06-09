@@ -2,25 +2,29 @@
 # -------------------
 
 class Node:
-    def __init__(self, tag, value=None):
+    def __init__(self, tag, value=None, selfClosing=None):
         self.tag = tag
         self.children = []
         self.value = value
+        self.selfClosing = selfClosing;
 
     def printNode(self, indent=""):
         print indent + "tag: " + self.tag
         if self.value:
             print indent + "value: " + self.value
-            print indent + "children:"
-            for child in self.children:
-                child.printNode(indent + "    ")
+        print indent + "children:"
+        for child in self.children:
+            child.printNode(indent + "    ")
 
     def addChild(self, child):
         self.children.append(child)
+    
+    def addNoClosingChild(self, tag):
+        self.addChild(Node(tag,None,True))
 
     def addTextChild(self, text):
         if text != "":
-            self.children.append(Node("text",text))
+            self.addChild(Node("text",text))
 
 class Tree:
     def __init__(self, root=None):
@@ -43,4 +47,7 @@ class Tree:
                 cumhtml += format(self._explore(child))
             else:
                 cumhtml += self._explore(child)
-        return cumhtml + "</" + node.tag + ">"
+        if node.selfClosing:
+            return cumhtml
+        else:
+            return cumhtml + "</" + node.tag + ">"

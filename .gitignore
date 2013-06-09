@@ -38,5 +38,7 @@ nosetests.xml
 .swo
 .swp
 
-# Mac
+# Connor 
 .DS_Store
+eclipse/
+

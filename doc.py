@@ -12,7 +12,7 @@ class htmlDoc:
         self.doc = open("streamlined/" + self.uid, "w")
 
         # Note: use ' in actual html, " for strings
-        if os.path.exists("./" + css):
+        if os.path.exists("./streamlined/" + css):
             style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
                     "<link rel='stylesheet' href='../" + css + "'>" + "\n"
         else:
@@ -37,6 +37,7 @@ class htmlDoc:
         self.doc.writelines("<!DOCTYPE html>" + "\n" + \
                             "<html lang='en'>" + "\n" + \
                             "<head>" + "\n" + \
+                            style + \
                             meta + \
                             "</head>" + "\n" + \
                             "<body>" + "\n" + \

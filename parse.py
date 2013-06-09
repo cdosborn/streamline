@@ -46,39 +46,49 @@ def textBeforeTags(html):
 
 def parse(html):
     # pattern is a regex for matching any tag
-    pattern = re.compile("<[!|/]?([\w|-]+)[^>]*>")
+    pattern = re.compile("<!(--)[^\1]*?-->|<[!|/]?([\w-]+)[^\2]*?>")
+
     # match is the object result of matching the regex to the html 
     # it only matches text found at the beginning of a string
     match = pattern.match(html)
     if match:
-        tag = match.group(1)
+        if match.group(1):
+            tag = match.group(1)
+        else:
+            tag = match.group(2)
+
         node = adt.Node(tag)
         # trims off beginning and closing tag of html
-        body = html[match.end():len(html) - len("</" + tag + ">")]
+        body = html[match.end(): closingTag(html,tag)]
 
         # pulls out any text before a tag, recurses on any tag pair
         # while there are more children to process      
         while len(body) > 0:
-            # print "body: " + body
+
             # pull out text before
             text = textBeforeTags(body)
-            # print "text: " + text
             node.addTextChild(text)
             body = body[len(text):]
-            
+
             # recurse on the html of the next tag
             nextMatch = pattern.match(body)
+            # comment tags return None for .group(2) and the appropriate tag for .group(1)
             if nextMatch:
-                nextTag = nextMatch.group(1)
-                # print "--> deeper with: " + body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
+                if nextMatch.group(2):
+                    nextTag = nextMatch.group(2)
+                else:
+                    nextTag = nextMatch.group(1)
+                
+                
                 if closingTag(body, nextTag) == -1:
                     node.addNoClosingChild(nextTag)
                     body = body[len(nextMatch.group()):]
                 else:
-                    nextHtml = body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
+                    nextHtml = body[:closingTag(body, nextTag) + len("</" + str(nextTag) + ">")]
+                    # print "--> deeper with: " + body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
                     node.addChild(parse(nextHtml))
                     body = body[len(nextHtml):]
-                # print "<-- exit, body rem: " + body[len(nextHtml):]
+                    # print "<-- exit, body rem: " + body[len(nextHtml):]
         return node
     else:
         return None
