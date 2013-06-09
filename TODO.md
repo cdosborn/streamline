@@ -1,6 +1,15 @@
 Priority
 ---
-* NOTHING MORE UNTIL TESTS
+* NOTHING MORE UNTIL TESTS (tests need documentation also)
+    * The regex in parse!
+        * self-closing (br, em, link)
+        * comments (which contain tags)
+        * script tags 
+    * closingTag (self-closing tag)
+    * Tree.write
+    * Doc.py
+    * Streamline.py
+
 * Increase parse robustness
 * Write some filter functions
     * node with max # of p tags
