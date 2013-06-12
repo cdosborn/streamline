@@ -2,12 +2,19 @@ import parse
 import adt
 
 def test_closingTag():
-    assert parse.closingTag("adsfasdf", "p") == -1
-    assert parse.closingTag("adsfasdf", "p") == -1
-    assert parse.closingTag("<p adsfasdf></p>", "p") == len("<p adsfasdf>")
-    assert parse.closingTag("<p><p><p><p></p></p></p></p>", "p") == len("<p><p><p><p></p></p></p>")
-    assert parse.closingTag("<durp>asdfsd</durp>asd</durp>ad", "durp") == len("<durp>asdfsd")
+    # private excludes first occurence
     assert parse._closHelper("</html>", "html") == 0
+
+    # no tag is found
+    assert parse.closingTag("adsfasdf", "p") == -1
+    # tag has attributes
+    assert parse.closingTag("<p adsfasdf></p>", "p") == len("<p adsfasdf>")
+    # tag is heavily nested
+    assert parse.closingTag("<p><p><p><p></p></p></p></p>", "p") == len("<p><p><p><p></p></p></p>")
+    # multiple end tags are present  
+    assert parse.closingTag("<durp>asdfsd</durp>asd</durp>ad", "durp") == len("<durp>asdfsd")
+
+    ####this should not pass, below should return len("<p><meta>")
     assert parse.closingTag("<p><meta><meta></p>", "meta") == -1
     assert parse.closingTag("<p><head></head></p>", "head") == len("<p><head>")
 
@@ -23,7 +30,6 @@ def test_parse():
     assert tree2.write() == "<p><meta></p>"
     tree3 = adt.Tree(parse.parse("<html><link rel=stylesheet type=text/css href=/css/simple.css></html>"))
     assert tree3.write() == "<html><link></html>"
-    tree4 = adt.Tree(parse.parse("<html><!--    <a href=https://bitbucket.org/cdosborn class=list><span class=entypo-bucket></span></a><a href=http://www.last.fm/user/cdosborn class=list><span class=entypo-lastfm></span></a><a href=mailto:iamnotajudas@gmail.com?subject=Howdy! class=list><span class=entypo-paper-plane></span></a> --></html>"))
+    # test comment parsing
+    tree4 = adt.Tree(parse.parse("<html><!--   <a></a> --></html>"))
     assert tree4.write() == "<html><--></html>"
-
-test_parse()
