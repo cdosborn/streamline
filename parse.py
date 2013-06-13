@@ -1,21 +1,19 @@
 import re
 import adt
 
-# Parser and helper methods
-# ------------------------
-
-# assumes that html includes the first instance of the opening tag
+# post: returns the index of the closing tag which matches the first found
+#       occurence of the opening tag
 def closingTag(html, tag, level=0, _index=0):
     #html has a valid beginning tag
     start = html.find("<" + tag)
     if start == -1:
         return -1
     #get index after tag and its attributes
-    indexAfterOpenTag = html[start:].find(">") + 1
+    indexAfterOpenTag = start + html[start:].find(">") + 1
     return _closHelper(html[indexAfterOpenTag:], tag, 0, indexAfterOpenTag)
 
-# handles the bulk of the recursion the above method just
-# prepares the html for recursion
+# pre:  the initial tag to be matched is not part of the string
+# post: recurses with nested tags and returns correct index after returning to the original level
 def _closHelper(html, tag, level=0, _index=0):
     opening = "<" + tag + ">"
     closing = "</" + tag + ">"
@@ -24,37 +22,34 @@ def _closHelper(html, tag, level=0, _index=0):
     nextTag = min(openTag, closTag)
     if nextTag == -1:
         nextTag = max(openTag, closTag)
-    # TESTS
-    # print "searching: " + html + " at level,index: " + str(level) + ", " + str(_index)
     if nextTag == -1 or html == "":
         return -1;
     elif level == 0 and nextTag == closTag:
-    #   print "found at: " + str(_index + closTag)
         return  _index + closTag
     elif nextTag == openTag:
         return _closHelper(html[openTag + len(opening):], tag, level + 1, _index + openTag + len(opening))
     else:
         return _closHelper(html[closTag + len(closing):], tag, level - 1, _index + closTag + len(closing))
 
-# returns the text before a "<" (tag) or everything if no tag is found
+# post: returns the text before a "<" (tag) or everything if no tag is found
 def textBeforeTags(html):
     end = html.find("<")
     if end == -1:
-        end = len(html)
-    text = html[:end]
-    return text;
+        return html
+    return html[:end]
 
+# post: returns a node for an html tag where its subtrees are its directly nested tags
 def parse(html):
     # pattern is a regex for matching any tag
     pattern = re.compile("<!(--)[^\1]*?-->|<[!|/]?([\w-]+)[^\2]*?>")
 
-    # match is the object result of matching the regex to the html 
-    # it only matches text found at the beginning of a string
+    # match is the object result of matching the regex 
+    # to the beginning of the html
     match = pattern.match(html)
     if match:
-        if match.group(1):
+        if match.group(1): #matches a comment tag
             tag = match.group(1)
-        else:
+        else:              #matches every other tag
             tag = match.group(2)
 
         node = adt.Node(tag)
@@ -64,7 +59,6 @@ def parse(html):
         # pulls out any text before a tag, recurses on any tag pair
         # while there are more children to process      
         while len(body) > 0:
-
             # pull out text before
             text = textBeforeTags(body)
             node.addTextChild(text)
@@ -74,21 +68,18 @@ def parse(html):
             nextMatch = pattern.match(body)
             # comment tags return None for .group(2) and the appropriate tag for .group(1)
             if nextMatch:
-                if nextMatch.group(2):
+                if nextMatch.group(2): # non-comment tag
                     nextTag = nextMatch.group(2)
-                else:
+                else:                  #comment tag
                     nextTag = nextMatch.group(1)
-                
                 
                 if closingTag(body, nextTag) == -1:
                     node.addNoClosingChild(nextTag)
                     body = body[len(nextMatch.group()):]
                 else:
                     nextHtml = body[:closingTag(body, nextTag) + len("</" + str(nextTag) + ">")]
-                    # print "--> deeper with: " + body[:closingTag(body, nextTag) + len("</" + nextTag + ">")]
                     node.addChild(parse(nextHtml))
                     body = body[len(nextHtml):]
-                    # print "<-- exit, body rem: " + body[len(nextHtml):]
         return node
     else:
         return None
