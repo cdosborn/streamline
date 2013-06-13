@@ -4,7 +4,6 @@ import adt
 def test_closingTag():
     # private excludes first occurence
     assert parse._closHelper("</html>", "html") == 0
-
     # no tag is found
     assert parse.closingTag("adsfasdf", "p") == -1
     # tag has attributes
@@ -13,10 +12,10 @@ def test_closingTag():
     assert parse.closingTag("<p><p><p><p></p></p></p></p>", "p") == len("<p><p><p><p></p></p></p>")
     # multiple end tags are present  
     assert parse.closingTag("<durp>asdfsd</durp>asd</durp>ad", "durp") == len("<durp>asdfsd")
-
-    ####this should not pass, below should return len("<p><meta>")
-    assert parse.closingTag("<p><meta><meta></p>", "meta") == -1
-    assert parse.closingTag("<p><head></head></p>", "head") == len("<p><head>")
+    # opening and closing tag are not first
+    assert parse.closingTag("<p><meta></meta></p>", "meta") == len("<p><meta>")
+    # self closing tags return -1
+    assert parse.closingTag("<p><head><head></p>", "head") == -1
 
 def test_textBeforeTags():
     assert parse.textBeforeTags("ab</p>") == "ab"
