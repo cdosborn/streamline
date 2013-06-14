@@ -34,15 +34,10 @@ nosetests.xml
 .pydevproject
 
 # Vim file saves
-.~
-.swo
-.swp
+*.~
+*.swo
+*.swp
 
 # Connor 
 .DS_Store
 eclipse/
-
-
-*.swp
-
-*.py~
