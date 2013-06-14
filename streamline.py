@@ -2,7 +2,6 @@ import urllib2
 from urllib2 import urlopen, URLError, HTTPError
 import parse, adt, doc
 
-
 invalidURL = True
 
 while invalidURL:
@@ -10,8 +9,6 @@ while invalidURL:
         address = raw_input("Enter a valid URL: ")
         rawPage = urlopen(address)
         rawHTML = rawPage.read()
-        # rawHTML = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>"
-        # address = "http://www.google.com"
         invalidURL = False
 
     except urllib2.URLError:
@@ -28,6 +25,7 @@ while invalidURL:
 
 def parseWrapper(html, filters=None):
     tree = adt.Tree(parse.parse(html))
+    tree.root.printNode();
     return tree.write()
 
 def buildHTML(elements, address, css):

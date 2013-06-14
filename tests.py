@@ -18,9 +18,12 @@ def test_closingTag():
     assert parse.closingTag("<p><head><head></p>", "head") == -1
 
 def test_textBeforeTags():
+    # text followed by tag
     assert parse.textBeforeTags("ab</p>") == "ab"
-    assert parse.textBeforeTags("asdfasdfsa<as></as></asdf>") == "asdfasdfsa"
+    # tag w/o text
     assert parse.textBeforeTags("<html>") == ""
+    # text w/o tag
+    assert parse.textBeforeTags("asdf") == "asdf"
 
 def test_parse():
     tree = adt.Tree(parse.parse("<p><p><p><p></p></p></p></p>"))
@@ -32,3 +35,4 @@ def test_parse():
     # test comment parsing
     tree4 = adt.Tree(parse.parse("<html><!--   <a></a> --></html>"))
     assert tree4.write() == "<html><--></html>"
+    #test
