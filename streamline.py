@@ -25,7 +25,6 @@ while invalidURL:
 
 def parseWrapper(html, filters=None):
     tree = adt.Tree(parse.parse(html))
-    tree.root.printNode();
     return tree.write()
 
 def buildHTML(elements, address, css):
