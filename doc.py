@@ -7,48 +7,57 @@ class htmlDoc:
         else:
             self.uid = uuid.uuid4().hex + ".html" # generates unique string of 32 hexadecimal digits
 
-        if not os.path.exists("streamlined"):
-            os.mkdir("streamlined")
-        self.doc = open("streamlined/" + self.uid, "w")
 
         # Note: use ' in actual html, " for strings
-        if os.path.exists("./streamlined/" + css):
-            style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
-                    "<link rel='stylesheet' href='../" + css + "'>" + "\n"
+        if css:
+            if os.path.exists("./streamlined/" + css):
+                self.style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
+                        "<link rel='stylesheet' href='../" + css + "'>" + "\n"
+            else:
+                self.style = ""
         else:
-            style = ""
+                self.style = ""
 
         if title:
-            meta   = "<title>" + title + "</title>" + "\n" + \
+            self.meta   = "<title>" + title + "</title>" + "\n" + \
                      "<meta charset='utf-8'>" + "\n"
-            header = "<h1>" + title + "</h1>" + "\n"
+            self.header = "<h1>" + title + "</h1>" + "\n"
         else:
-            meta   = "<meta charset='utf-8'>" + "\n"
-            header = ""
+            self.meta   = "<meta charset='utf-8'>" + "\n"
+            self.header = ""
 
-        if not content:
-            content = ""
+        if content:
+            self.content = content
+        else:
+            self.content = ""
 
         if address:
-            link = "<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>" + "\n"
+            self.link = "<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>" + "\n"
         else:
-            link = ""
+            self.link = ""
 
-        self.doc.writelines("<!DOCTYPE html>" + "\n" + \
+        
+
+    def build(self):
+        if not os.path.exists("streamlined"):
+            os.mkdir("streamlined")
+        self.write = open("streamlined/" + self.uid, "w")
+
+
+        self.write.writelines("<!DOCTYPE html>" + "\n" + \
                             "<html lang='en'>" + "\n" + \
                             "<head>" + "\n" + \
-                            style + \
-                            meta + \
+                            self.style + \
+                            self.meta + \
                             "</head>" + "\n" + \
                             "<body>" + "\n" + \
                             "<div class='container'>" + "\n" + \
-                            header + \
-                            content + "\n" + \
-                            link + \
+                            self.header + \
+                            self.content + "\n" + \
+                            self.link + \
                             "</div>" + "\n" + \
                             "</body>" + "\n" + \
                             "</html>" + "\n");
-        self.doc.close()
+        self.write.close()
 
-# example run
-#doc = htmlDoc("http://www.google.com", "<p>Lorem ipsum dolor sit amet.</p>", "streamline.css")
+
