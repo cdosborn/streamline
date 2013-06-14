@@ -35,4 +35,3 @@ def test_parse():
     # test comment parsing
     tree4 = adt.Tree(parse.parse("<html><!--   <a></a> --></html>"))
     assert tree4.write() == "<html><--></html>"
-    #test
