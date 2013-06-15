@@ -1,5 +1,4 @@
-import parse
-import adt
+import parse, adt, doc
 
 def test_closingTag():
     # private excludes occurence of first tag
@@ -35,3 +34,16 @@ def test_parse():
     # test comment parsing
     tree4 = adt.Tree(parse.parse("<html><!--   <a></a> --></html>"))
     assert tree4.write() == "<html><--></html>"
+
+def test_doc():
+    testDoc = doc.htmlDoc("http://www.google.com", "<p>Lorem ipsum dolor sit amet.</p>", None, "My Test File")
+    
+    # test uid field
+    assert testDoc.uid == 37
+
+    # test link field
+    assert testDoc.link.find("http://www.google.com") != -1
+
+    # test meta field
+    assert testDoc.meta.find("My Test File") != -1
+
