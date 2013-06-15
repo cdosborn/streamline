@@ -76,6 +76,9 @@ def parse(html):
                 if closingTag(body, nextTag) == -1:
                     node.addNoClosingChild(nextTag)
                     body = body[len(nextMatch.group()):]
+                elif nextTag == "script":
+                    node.addChild(adt.Node("script")) 
+                    body = body[closingTag(body, "script") + len("</script>"):]
                 else:
                     nextHtml = body[:closingTag(body, nextTag) + len("</" + str(nextTag) + ">")]
                     node.addChild(parse(nextHtml))
