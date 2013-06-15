@@ -1,7 +1,11 @@
 import uuid, os
 
+# htmlDoc defines the properties/behaviors of a generated HTML document
 class htmlDoc:
 
+    # pre: URL address, HTML content, a filepath to a CSS file, a string title, a string name
+    # post: an object with a unique ID, HTML meta info, HTML style info with a link to a CSS file
+    #        an HTML header of the title, a link to the original, and HTML body content 
     def __init__(self, address=None, content=None, css=None, title=None, name=None): 
         if name:
             self.uid = name + ".html" # uid -- unique identifier
@@ -34,6 +38,8 @@ class htmlDoc:
         else:
             self.link = ""
 
+    # pre: a UID, HTML style info, HTML meta info, HTML header info, HTML content, a HTML link
+    # post: a valid HTML document containing the htmlDoc properties
     def build(self):
         if not os.path.exists("streamlined"):
             os.mkdir("streamlined")
