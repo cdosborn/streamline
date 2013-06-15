@@ -1,16 +1,7 @@
 Priority
 ---
-* NOTHING MORE UNTIL TESTS (tests need documentation also)
-    * The regex in parse!
-        * self-closing (br, em, link)
-        * comments (which contain tags)
-        * script tags 
-    * closingTag (self-closing tag)
-    * Tree.write
-    * Doc.py
-    * Streamline.py
-
-* Increase parse robustness
+* Increase parse robustness (trouble sites)
+    * http://projects.taylorosborn.us.com/corporate-fraternization/
 * Write some filter functions
     * node with max # of p tags
 * In node class, adding children needs consistency should all the add children methods just take a tag? Notice how addChild is a helper for the other two.
@@ -19,6 +10,14 @@ Priority
 Ongoing
 ---
 * Add TESTS!!
+    * The regex in parse!
+        * self-closing (br, em, link)
+        * comments (which contain tags)
+        * script tags 
+    * closingTag (self-closing tag)
+    * Tree.write
+    * Doc.py
+    * Streamline.py
 
 Completed
 ---
