@@ -1,6 +1,7 @@
 import uuid, os
 
 class htmlDoc:
+
     def __init__(self, address=None, content=None, css=None, title=None, name=None): 
         if name:
             self.uid = name + ".html" # uid -- unique identifier
@@ -9,14 +10,11 @@ class htmlDoc:
 
 
         # Note: use ' in actual html, " for strings
-        if css:
-            if os.path.exists("./streamlined/" + css):
-                self.style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
-                        "<link rel='stylesheet' href='../" + css + "'>" + "\n"
-            else:
-                self.style = ""
+        if os.path.exists("./streamlined/" + css):
+            self.style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
+                    "<link rel='stylesheet' href='../" + css + "'>" + "\n"
         else:
-                self.style = ""
+            self.style = ""
 
         if title:
             self.meta   = "<title>" + title + "</title>" + "\n" + \
@@ -35,8 +33,6 @@ class htmlDoc:
             self.link = "<br><h3><a href='" + address + "'>Link to the original article</a></h3><br>" + "\n"
         else:
             self.link = ""
-
-        
 
     def build(self):
         if not os.path.exists("streamlined"):
