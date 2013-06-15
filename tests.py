@@ -2,7 +2,7 @@ import parse
 import adt
 
 def test_closingTag():
-    # private excludes first occurence
+    # private excludes occurence of first tag
     assert parse._closHelper("</html>", "html") == 0
     # no tag is found
     assert parse.closingTag("adsfasdf", "p") == -1
