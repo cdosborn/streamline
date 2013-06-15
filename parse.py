@@ -41,7 +41,7 @@ def textBeforeTags(html):
 # post: returns a node for an html tag where its subtrees are its directly nested tags
 def parse(html):
     # pattern is a regex for matching any tag
-    pattern = re.compile("<!(--)[^\1]*?-->|<[!|/]?([\w-]+)[^\2]*?>")
+    pattern = re.compile("<(!--)[^\1]*?-->|</?([\w-]+)[^\2]*?>")
 
     # match is the object result of matching the regex 
     # to the beginning of the html
