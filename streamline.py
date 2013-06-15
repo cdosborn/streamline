@@ -29,5 +29,6 @@ def parseWrapper(html, filters=None):
 
 def buildHTML(elements, address, css):
     newDoc = doc.htmlDoc(address, elements, css)
+    newDoc.build()
 
 buildHTML(parseWrapper(rawHTML), address, "streamline.css")
