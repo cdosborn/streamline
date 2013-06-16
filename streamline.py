@@ -9,6 +9,9 @@ while invalidURL:
         address = raw_input("Enter a valid URL: ")
         rawFile = urlopen(address)
         rawHTML = rawFile.read()
+        original = open("original.html", "w")
+        original.write(rawHTML);
+        original.close()
         invalidURL = False
 
     except urllib2.URLError:
