@@ -7,8 +7,8 @@ invalidURL = True
 while invalidURL:
     try:
         address = raw_input("Enter a valid URL: ")
-        rawPage = urlopen(address)
-        rawHTML = rawPage.read()
+        rawFile = urlopen(address)
+        rawHTML = rawFile.read()
         invalidURL = False
 
     except urllib2.URLError:
@@ -23,12 +23,15 @@ while invalidURL:
     except Exception: # Generic error, DOES NOT catch KeyboardInterrupt, SystemExit
         print "A generic error occurred."
 
-def parseWrapper(html, filters=None):
-    tree = adt.Tree(parse.parse(html))
-    return tree.write()
-
-def buildHTML(elements, address, css):
-    newDoc = doc.htmlDoc(address, elements, css)
-    newDoc.build()
-
-buildHTML(parseWrapper(rawHTML), address, "streamline.css")
+#def parseWrapper(html, filters=None):
+#    tree = adt.Tree(parse.parse(html))
+#    return tree.write()
+#
+#def buildHTML(elements, address, css):
+#    newDoc = doc.htmlDoc(address, elements, css)
+#    newDoc.build()
+#
+#tree = adt.Tree(parse.parse(html))
+#
+#buildHTML(parseWrapper(rawHTML), address, "streamline.css")
+doc.htmlDoc(address, adt.Tree(parse.parse(rawHTML)).write(), "streamline.css").build()

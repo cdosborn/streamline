@@ -41,7 +41,7 @@ def textBeforeTags(html):
 # post: returns a node for an html tag where its subtrees are its directly nested tags
 def parse(html):
     # pattern is a regex for matching any tag
-    pattern = re.compile("<(!--)[^\1]*?-->|</?([\w-]+)[^\2]*?>")
+    pattern = re.compile("<(!--)[^\1]*?-->|<[!/]?([\w-]+)[^\2]*?>")
 
     # match is the object result of matching the regex 
     # to the beginning of the html
@@ -76,9 +76,9 @@ def parse(html):
                 if closingTag(body, nextTag) == -1:
                     node.addNoClosingChild(nextTag)
                     body = body[len(nextMatch.group()):]
-                elif nextTag == "script":
-                    node.addChild(adt.Node("script")) 
-                    body = body[closingTag(body, "script") + len("</script>"):]
+                elif nextTag == "script" or nextTag == "style":
+                    node.addChild(adt.Node(nextTag)) 
+                    body = body[closingTag(body, nextTag) + len("</" + nextTag + ">"):]
                 else:
                     nextHtml = body[:closingTag(body, nextTag) + len("</" + str(nextTag) + ">")]
                     node.addChild(parse(nextHtml))
