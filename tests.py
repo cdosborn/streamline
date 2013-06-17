@@ -1,6 +1,6 @@
 import parse, adt, doc
 
-def test_closingTag():
+def test_parse_closingTag():
     # private excludes occurence of first tag
     assert parse._closHelper("</html>", "html") == 0
     # no tag is found
@@ -18,7 +18,7 @@ def test_closingTag():
     # style including brackets is overcome
     assert parse.closingTag("<style> a > p { <!-- <tag>a</tag>}</style>", "style") == len("<style> a > p { <!-- <tag>a</tag>}") 
 
-def test_textBeforeTags():
+def test_parse_textBeforeTags():
     # text followed by tag
     assert parse.textBeforeTags("ab</p>") == "ab"
     # tag w/o text
@@ -26,7 +26,7 @@ def test_textBeforeTags():
     # text w/o tag
     assert parse.textBeforeTags("asdf") == "asdf"
 
-def test_parse():
+def test_parse_parse():
     tree = adt.Tree(parse.parse("<p><p><p><p></p></p></p></p>"))
     assert tree.write() == "<p><p><p><p></p></p></p></p>"
     tree2 = adt.Tree(parse.parse("<p><meta asd></p>"))
@@ -36,6 +36,10 @@ def test_parse():
     # test comment parsing
     tree4 = adt.Tree(parse.parse("<html><!--   <a></a> --></html>"))
     assert tree4.write() == "<html><!--></html>"
+
+def test_tree_get():
+    tree = adt.Tree(parse.parse("<p><meta></p>"))
+    assert tree.get("meta").write() == "<meta>"
 
 #def test_doc():
 #    testDoc = doc.htmlDoc("http://www.google.com", "<p>Lorem ipsum dolor sit amet.</p>", None, "My Test File")
