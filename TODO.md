@@ -1,7 +1,7 @@
 Priority
 ---
 * Increase parse robustness (trouble sites)
-    * http://projects.taylorosborn.us.com/corporate-fraternization/
+    * http://maryrosecook.com/post/when-i-died-2
 * Write some filter functions
     * node with max # of p tags
 * In node class, adding children needs consistency should all the add children methods just take a tag? Notice how addChild is a helper for the other two.
