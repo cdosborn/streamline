@@ -27,7 +27,10 @@ while invalidURL:
         print "A generic error occurred."
 
 def buildTree(html):
-    return adt.Tree(parse.parse(html))
+    # parse now handles tags outside of the main html, they are children of Super node
+    superTree = adt.Tree(parse.parse(html))
+    # construct new Tree from html child in superTree
+    return adt.Tree(superTree.get("html"))
 
 def buildHTML(tree, address, css):
     #body = tree.get("body").write()

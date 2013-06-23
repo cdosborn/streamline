@@ -1,16 +1,19 @@
 Priority
 ---
-* Update comment syntax (adt.py as example)
-* Increase parse robustness (trouble sites)
+* parse.py + streamline.py need to be refactored and simplified
+    * implementing a helper for the code line 50 of parse.py
+* trees implement a get method, we need nodes to implement it as well or we get the awkward situation in streamline.py when we have to make two trees
+* increase parse robustness (trouble sites)
     * http://maryrosecook.com/post/when-i-died-2
          * It would seem that the parser is having issues handling the comment at line 256.
-* Write some filter functions
+* write some filter functions
     * node with max # of p tags
-* Node class should be simplified
+* node class should be simplified
 
 Ongoing
 ---
-* Add TESTS!!
+* Update comment syntax (adt.py as example)
+* add TESTS!!
     * The regex in parse!
         * self-closing (br, em, link)
         * comments (which contain tags)
@@ -22,5 +25,6 @@ Ongoing
 
 Completed
 ---
-* Enable handling of self closing tags
-* Modify streamline to incorporate changes
+* parser couldn't handle tags outside surrounding html (http://maryrosecook.com/post/when-i-died-2)
+* enable handling of self closing tags
+* modify streamline to incorporate changes
