@@ -83,7 +83,7 @@ class Tree:
             if child.tag == tag:
                 return child
         for child in node.children:
-            self._get(tag, child)   
+            return self._get(tag, child)   
 
 #    def grabContent(self):
 #        ''' 
