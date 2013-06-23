@@ -6,16 +6,16 @@ class htmlDoc:
     # pre: URL address, HTML content, a filepath to a CSS file, a string title, a string name
     # post: an object with a unique ID, HTML meta info, HTML style info with a link to a CSS file
     #        an HTML header of the title, a link to the original, and HTML body content 
+    # note: use ' in actual html, " for strings
     def __init__(self, address=None, content=None, css=None, title=None, name=None): 
         if name:
             self.uid = name + ".html" # uid -- unique identifier
         else:
             self.uid = uuid.uuid4().hex + ".html" # generates unique string of 32 hexadecimal digits
 
-
-        # Note: use ' in actual html, " for strings
         if os.path.exists("./streamlined/" + css):
-            self.style = "<link href='http://fonts.googleapis.com/css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
+            self.style = "<link href='http://fonts.googleapis.com/" + \
+                    "css?family=Oswald:400,700|Open+Sans' rel='stylesheet' type='text/css'>" + "\n" \
                     "<link rel='stylesheet' href='../" + css + "'>" + "\n"
         else:
             self.style = ""

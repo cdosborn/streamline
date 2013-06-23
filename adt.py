@@ -62,7 +62,7 @@ class Tree:
     def printRoot(self):
         self.root.printNode()
 
-    # select | fn(node) -> bool, returns whether a node should be written
+    # select | fn(Node) -> bool, returns whether a node should be written
     # indent | fn(str) -> str, apply indent/style to source html
     # write  | fn(fn,fn) -> str, returns the given tree as html
     def write(self, select=None, indent=None):
@@ -83,6 +83,12 @@ class Tree:
             if child.tag == tag:
                 return child
         for child in node.children:
-            _get(tag, child)   
+            self._get(tag, child)   
 
-
+#    def grabContent(self):
+#        ''' 
+#        if not contains p tag
+#            explore children
+#        (directly) contains p tag
+#            how many p tag    
+#        '''  

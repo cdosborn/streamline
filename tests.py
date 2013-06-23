@@ -39,7 +39,11 @@ def test_parse_parse():
 
 def test_tree_get():
     tree = adt.Tree(parse.parse("<p><meta></p>"))
+    # self-closing node
     assert tree.get("meta").write() == "<meta>"
+    tree = adt.Tree(parse.parse("<p><meta>asf</meta></p>"))
+    # nested nodes
+    assert tree.get("meta").write() == "<meta>asf</meta>"
 
 #def test_doc():
 #    testDoc = doc.htmlDoc("http://www.google.com", "<p>Lorem ipsum dolor sit amet.</p>", None, "My Test File")

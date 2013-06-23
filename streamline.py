@@ -26,15 +26,14 @@ while invalidURL:
     except Exception: # Generic error, DOES NOT catch KeyboardInterrupt, SystemExit
         print "A generic error occurred."
 
-#def parseWrapper(html, filters=None):
-#    tree = adt.Tree(parse.parse(html))
-#    return tree.write()
-#
-#def buildHTML(elements, address, css):
-#    newDoc = doc.htmlDoc(address, elements, css)
-#    newDoc.build()
-#
-#tree = adt.Tree(parse.parse(html))
-#
-#buildHTML(parseWrapper(rawHTML), address, "streamline.css")
-doc.htmlDoc(address, adt.Tree(parse.parse(rawHTML)).write(), "streamline.css").build()
+def buildTree(html):
+    return adt.Tree(parse.parse(html))
+
+def buildHTML(tree, address, css):
+    #body = tree.get("body").write()
+    #title = tree.get("title").write()
+    body = tree.write()
+    newDoc = doc.htmlDoc(address, body, css)
+    newDoc.build()
+
+buildHTML(buildTree(rawHTML), address, "streamline.css")
