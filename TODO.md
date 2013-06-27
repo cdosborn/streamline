@@ -4,8 +4,6 @@ Priority
     * implementing a helper for the code line 50 of parse.py
 * trees implement a get method, we need nodes to implement it as well or we get the awkward situation in streamline.py when we have to make two trees
 * increase parse robustness (trouble sites)
-    * http://maryrosecook.com/post/when-i-died-2
-         * It would seem that the parser is having issues handling the comment at line 256.
 * write some filter functions
     * node with max # of p tags
 * node class should be simplified
