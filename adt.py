@@ -79,8 +79,10 @@ class Tree:
     def _get(self, tag, node):
         if node.tag == tag:
             return node
-        for child in node.children: #way faster doing breadth vs. depth search
-            if child.tag == tag:
-                return child
         for child in node.children:
-            return self._get(tag, child)   
+            babe = self._get(tag, child)
+            if babe is None:
+                continue
+            else:
+                return babe
+

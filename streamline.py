@@ -26,17 +26,9 @@ while invalidURL:
     except Exception: # Generic error, DOES NOT catch KeyboardInterrupt, SystemExit
         print "A generic error occurred."
 
-def buildTree(html):
-    # parse now handles tags outside of the main html, they are children of Super node
-    superTree = adt.Tree(parse.parse(html))
-    # construct new Tree from html child in superTree
-    return adt.Tree(superTree.get("html"))
+def htmlTree(html):
+    return adt.Tree(parse.parse(html))
 
-def buildHTML(tree, address, css):
-    #body = tree.get("body").write()
-    #title = tree.get("title").write()
-    body = tree.write()
-    newDoc = doc.htmlDoc(address, body, css)
-    newDoc.build()
-
-buildHTML(buildTree(rawHTML), address, "streamline.css")
+t = htmlTree(rawHTML)
+content = htmlTree(rawHTML).get("body").write()
+doc.htmlDoc(address, content, "streamline.css").build()

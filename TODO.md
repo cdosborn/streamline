@@ -1,9 +1,12 @@
 Priority
 ---
-* trees implement a get method, we need nodes to implement it as well or we get the awkward situation in streamline.py when we have to make two trees
-* increase parse robustness (trouble sites)
-* write some filter functions
+* node class needs to support attributes (class,id,href)
+* get method extended such that tree.get("div","class","id")
+* filter functions
+    * blacklist (script,style,etc)
     * node with max # of p tags
+* code in script tags sometimes interpreted as text nodes 
+* trees implement a get method, which needs to be implemented by the node class
 * node class should be simplified
 
 Ongoing
@@ -21,6 +24,7 @@ Ongoing
 
 Completed
 ---
+* tree.get actually scans correctly now :D
 * parse.py + streamline.py need to be refactored and simplified
 * parser couldn't handle tags outside surrounding html (http://maryrosecook.com/post/when-i-died-2)
 * enable handling of self closing tags
