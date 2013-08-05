@@ -79,16 +79,8 @@ class Tree:
     def _get(self, tag, node):
         if node.tag == tag:
             return node
-        for child in node.children:
+        for child in node.children: #way faster doing breadth vs. depth search
             if child.tag == tag:
                 return child
         for child in node.children:
             return self._get(tag, child)   
-
-#    def grabContent(self):
-#        ''' 
-#        if not contains p tag
-#            explore children
-#        (directly) contains p tag
-#            how many p tag    
-#        '''  
