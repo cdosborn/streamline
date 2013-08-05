@@ -1,7 +1,5 @@
 Priority
 ---
-* parse.py + streamline.py need to be refactored and simplified
-    * implementing a helper for the code line 50 of parse.py
 * trees implement a get method, we need nodes to implement it as well or we get the awkward situation in streamline.py when we have to make two trees
 * increase parse robustness (trouble sites)
 * write some filter functions
@@ -23,6 +21,7 @@ Ongoing
 
 Completed
 ---
+* parse.py + streamline.py need to be refactored and simplified
 * parser couldn't handle tags outside surrounding html (http://maryrosecook.com/post/when-i-died-2)
 * enable handling of self closing tags
 * modify streamline to incorporate changes
