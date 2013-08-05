@@ -1,8 +1,7 @@
 import parse, adt, doc, re
 
 def test_regex():
-    pattern = re.compile("<(!--)[^\1]*?-->|<[!/]?([\w-]+)[^\2]*?>")
-
+    pattern = re.compile("<(!--)[^\1]*?-->|<[!/]?([\w-]+)[^\1]*?>")
     match = pattern.match("<p>asdf</p>")
     assert match.group(2) == "p"
 
@@ -35,14 +34,14 @@ def test_parse_textBeforeTags():
 
 def test_parse_parse():
     tree = adt.Tree(parse.parse("<p><p><p><p></p></p></p></p>"))
-    assert tree.write() == "<Super><p><p><p><p></p></p></p></p></Super>"
+    assert tree.write() == "<document><p><p><p><p></p></p></p></p></document>"
     tree2 = adt.Tree(parse.parse("<p><meta asd></p>"))
-    assert tree2.write() == "<Super><p><meta></p></Super>"
+    assert tree2.write() == "<document><p><meta></p></document>"
     tree3 = adt.Tree(parse.parse("<html><link rel=stylesheet type=text/css href=/css/simple.css></html>"))
-    assert tree3.write() == "<Super><html><link></html></Super>"
+    assert tree3.write() == "<document><html><link></html></document>"
     # test comment parsing
     tree4 = adt.Tree(parse.parse("<html><!--   <a></a> --></html>"))
-    assert tree4.write() == "<Super><html><!--></html></Super>"
+    assert tree4.write() == "<document><html><!--></html></document>"
 
 def test_tree_get():
     # basic nesting
@@ -50,7 +49,7 @@ def test_tree_get():
     assert tree.get("c").write() == "<c></c>"
     tree = adt.Tree(parse.parse("<p><meta></p>"))
     # self-closing node
-    assert tree.write() == "<Super><p><meta></p></Super>"
+    assert tree.write() == "<document><p><meta></p></document>"
     assert tree.get("p").write() == "<p><meta></p>"
 
 #def test_doc():
