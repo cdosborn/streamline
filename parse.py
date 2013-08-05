@@ -38,31 +38,12 @@ def textBeforeTags(html):
         return html
     return html[:end]
 
+# pre:  _parse only evaluates a node and its children. Parse wraps the beginning nodes as children of the 
+#       document tag, to insure everything is parsed under a single parent.
+# post: calls _parse on html wrapped in a document tag
 def parse(html):
-    # this is the root node of an html doc, a comment, doctype, html could be valid children
-    node = adt.Node("Super")
-    while html is not "":
-        pattern = re.compile("<(!--)[^\1]*?-->|<[!/]?([\w-]+)[^\2]*?>")
-        # recurse on the html of the next tag
-        match = pattern.match(html)
-        # comment tags return None for .group(2) and the appropriate tag for .group(1)
-
-        # This code is directly copied from _parse needs to be refactored!
-        if match.group(1): #matches a comment tag
-            tag = match.group(1)
-        else:              #matches every other tag
-            tag = match.group(2)
-        
-        if closingTag(html, tag) is -1:
-            node.addNoClosingChild(tag)
-            html = html[len(match.group()):]
-        else:
-            next_html = html[:closingTag(html, tag) + len("</" + tag + ">")]
-            node.addChild(_parse(next_html))
-            html = html[len(next_html):]
-        whitespace = textBeforeTags(html)
-        html = html[len(whitespace):]
-    return node
+    html = "<document>" + html + "</document>"
+    return _parse(html)
 
 # post: returns a node for an html tag where its subtrees are its directly nested tags
 def _parse(html):
