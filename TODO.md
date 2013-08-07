@@ -5,9 +5,12 @@ Priority
 * filter functions
     * blacklist (script,style,etc)
     * node with max # of p tags
+* resolve text nodes, I don't like that the tag is set to "text"
 * code in script tags sometimes interpreted as text nodes 
 * trees implement a get method, which needs to be implemented by the node class
+* regex doesn't handle nested comments (<!-- <!-- --> should be comment -->)
 * node class should be simplified
+
 
 Ongoing
 ---

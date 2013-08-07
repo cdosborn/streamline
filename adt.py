@@ -5,6 +5,7 @@ class Node:
     def __init__(self, tag, value=None, selfClosing=False):
         self.tag = tag
         self.children = []
+        self.attr = {"class":None, "id":None, "href":None}
         self.value = value
         self.selfClosing = selfClosing;
 
